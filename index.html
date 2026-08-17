@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Forces the mobile browser to render exactly at 1200px width, locking the layout and allowing pinch-to-zoom. -->
+    <meta name="viewport" content="width=1200, user-scalable=yes">
+    <title>Online Manipal Student Portal</title>
+    <style>
+        /* =========================================
+     GLOBAL RESET & TYPOGRAPHY
+     ========================================= */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* Flexbox body ensures the footer always stays at the bottom */
+        body {
+            background-color: #ffffff;
+            color: #333;
+            -webkit-font-smoothing: antialiased;
+            min-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+            /* This pushes the footer down permanently */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* =========================================
+     HEADER
+     ========================================= */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background: #ffffff;
+            border-bottom: 2px solid #f4f4f4;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+        }
+
+        .logo-space {
+            width: 220px;
+            height: 50px;
+            
+            background: #fafafa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #999;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+
+        nav {
+            display: flex;
+            gap: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        nav div {
+            cursor: pointer;
+            position: relative;
+            padding-bottom: 5px;
+            transition: color 0.2s ease;
+        }
+
+        nav div:hover {
+            color: #f24e1e;
+        }
+
+        nav div.active {
+            color: #f24e1e;
+        }
+
+        nav div.active::after {
+            content: '';
+            position: absolute;
+            bottom: -22px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #f24e1e;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .icon-svg {
+            width: 24px;
+            height: 24px;
+            fill: #666;
+            cursor: pointer;
+            transition: fill 0.2s ease;
+        }
+
+        .icon-svg:hover {
+            fill: #f24e1e;
+        }
+
+        /* =========================================
+     HOME VIEW: BANNER
+     ========================================= */
+        .banner-wrapper {
+            padding: 25px 40px 10px;
+        }
+
+        .banner {
+            background: linear-gradient(90deg, #1b288c 0%, #3a4ee0 100%);
+            border-radius: 8px;
+            display: flex;
+            color: white;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .banner-left {
+            background: #e8eaf6;
+            padding: 20px 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .laptop-warning {
+            width: 110px;
+            height: 80px;
+            background: #333;
+            border-radius: 4px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 0 #999;
+        }
+
+        .laptop-warning::after {
+            content: '⚠️';
+            font-size: 42px;
+            color: #ff9800;
+        }
+
+        .laptop-warning::before {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            width: 150px;
+            height: 12px;
+            background: #ccc;
+            border-radius: 2px 2px 10px 10px;
+        }
+
+        .banner-right {
+            padding: 25px 35px;
+        }
+
+        .banner-right h2 {
+            font-size: 24px;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .banner-right p {
+            font-size: 13px;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background: #007bff;
+            border-color: #007bff;
+        }
+
+        /* =========================================
+     HOME VIEW: 3-COLUMN CARD GRID
+     ========================================= */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            padding: 15px 40px 80px;
+        }
+
+        .card {
+            background-color: #fff9f5;
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.04), 0 5px 15px rgba(242, 78, 30, 0.03);
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            min-height: 480px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card-icon {
+            width: 55px;
+            height: 55px;
+            margin-bottom: 25px;
+            background-color: #f24e1e;
+            -webkit-mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-position: left;
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: left;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #111;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .card-body {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        .card-body span.orange {
+            color: #f24e1e;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .card-body strong {
+            font-weight: bold;
+            color: #000;
+        }
+
+        .card-btn {
+            background-color: #f24e1e;
+            color: white;
+            border: none;
+            font-size: 13px;
+            font-weight: bold;
+            border-radius: 6px;
+            text-transform: uppercase;
+            width: fit-content;
+            padding: 14px 26px;
+            cursor: pointer;
+            margin-top: auto;
+            transition: background-color 0.2s ease;
+        }
+
+        .card-btn:hover {
+            background-color: #d63d13;
+        }
+
+        .card-btn.full-width {
+            width: 100%;
+            text-align: center;
+        }
+
+        /* =========================================
+     VIEWS - GENERAL TABLE STYLES
+     ========================================= */
+        .view-section {
+            display: none;
+            padding: 20px 40px;
+        }
+
+        .header-title {
+            background: #fdfdfd;
+            padding: 25px 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #111;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .purple-icon,
+        .orange-icon {
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .purple-icon {
+            background: #9b27b0;
+        }
+
+        .orange-icon {
+            background: #f24e1e;
+            font-weight: bold;
+            font-family: serif;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 20px;
+            text-align: left;
+            font-size: 15px;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .data-table th {
+            color: #777;
+            font-weight: bold;
+        }
+
+        .data-table th::after {
+            content: ' ˅';
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        .data-table td {
+            color: #111;
+            font-weight: bold;
+        }
+
+        .data-table td.download {
+            color: #f24e1e;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        /* =========================================
+     RESULTS VIEW SPECIFIC STYLES
+     ========================================= */
+        #view-results {
+            padding-bottom: 60px;
+        }
+
+        .res-banner {
+            background-color: #f24e1e;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            padding: 15px;
+            font-size: 20px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+
+        .res-details {
+            padding: 20px 0;
+            font-size: 15px;
+            font-weight: bold;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        .res-info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            color: #444;
+        }
+
+        .res-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .res-table th {
+            color: #f24e1e;
+            /* Orange headers like screenshot */
+            font-size: 12px;
+            padding: 15px 10px;
+            border-bottom: 2px solid #eee;
+            text-align: center;
+        }
+
+        .res-table th:first-child {
+            text-align: left;
+        }
+
+        .res-table td {
+            padding: 15px 10px;
+            font-size: 14px;
+            text-align: center;
+            border-bottom: 1px solid #f5f5f5;
+            font-weight: bold;
+        }
+
+        .res-table td:first-child {
+            text-align: left;
+            color: #f24e1e;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .res-table td:first-child span {
+            color: #555;
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+        .res-footer {
+            font-size: 12px;
+            color: #0000ee;
+            margin-bottom: 20px;
+        }
+
+        .legend-table {
+            width: 60%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .legend-table td {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .legend-table td:first-child {
+            color: #f24e1e;
+            font-weight: bold;
+            width: 30%;
+        }
+
+        /* =========================================
+     FOOTER
+     ========================================= */
+        footer {
+            background: #2b2b2b;
+            padding: 40px;
+            color: #999;
+            margin-top: auto;
+            /* Guarantees footer is at the bottom */
+        }
+
+        .footer-top {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            border-bottom: 1px solid #3c3c3c;
+            padding-bottom: 25px;
+            margin-bottom: 25px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            font-size: 14px;
+        }
+
+        .footer-links span {
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links span:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            color: #ccc;
+        }
+
+        .social-icons span {
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* =========================================
+     MODALS / DIALOG BOXES
+     ========================================= */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: #ffffff;
+            width: 600px;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -18px;
+            right: -18px;
+            width: 36px;
+            height: 36px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #777;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            border-radius: 4px;
+        }
+
+        .modal-header {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 25px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #111;
+        }
+
+        .modal-body {
+            padding: 30px 40px;
+        }
+
+        .mod-title {
+            font-size: 17px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #000;
+        }
+
+        .subj-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .subj-list li {
+            font-size: 14px;
+            font-weight: bold;
+            color: #222;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .subj-list li::before {
+            content: '•';
+            margin-right: 12px;
+            font-size: 18px;
+            color: #111;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .checkbox-wrapper input[type="checkbox"] {
+            accent-color: #f24e1e;
+            margin-top: 3px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-wrapper label {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.4;
+            cursor: pointer;
+        }
+
+        .radio-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .radio-row input[type="radio"] {
+            accent-color: #f24e1e;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .radio-row label {
+            font-size: 15px;
+            color: #111;
+            cursor: pointer;
+        }
+
+        .fee-calc {
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 30px;
+            color: #000;
+        }
+
+        .disclaimer {
+            font-size: 12px;
+            color: #888;
+            margin-top: 35px;
+            line-height: 1.5;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 20px 40px 30px;
+            gap: 15px;
+        }
+
+        .btn-icon {
+            background: #f24e1e;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 36px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .btn-icon:disabled {
+            background: #d3d3d3;
+            cursor: not-allowed;
+        }
+
+        .btn-text {
+            background: #f24e1e;
+            color: white;
+            border: none;
+            padding: 0 25px;
+            height: 36px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo-space"><img src="logo.png" alt="" srcset=""></div>
+        <nav>
+            <div id="nav-home" class="nav-item active" onclick="switchView('home')">Home</div>
+            <div class="nav-item">Courses</div>
+            <div class="nav-item">E-Library</div>
+            <div class="nav-item">Announcements</div>
+            <div id="nav-pay" class="nav-item" onclick="switchView('payments')">Payments</div>
+            <div class="nav-item">More v</div>
+        </nav>
+        <div class="header-actions">
+            <svg class="icon-svg" viewBox="0 0 24 24">
+                <path
+                    d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" />
+            </svg>
+            <svg class="icon-svg" viewBox="0 0 24 24">
+                <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
+            </svg>
+        </div>
+    </header>
+
+    <main>
+        <!-- HOME VIEW -->
+        <div id="view-home" class="view-section" style="display: block;">
+
+            <div class="banner-wrapper">
+                <div class="banner">
+                    <div class="banner-left">
+                        <div class="laptop-warning"></div>
+                    </div>
+                    <div class="banner-right">
+                        <h2>Keep Your Money Safe</h2>
+                        <p>Beware of anyone requesting fee payments through unofficial channels like their personal
+                            account or QR code etc. as they may be fraudsters. To safeguard your money, please keep
+                            these important points in mind:<br><br>
+                            - Only pay your re-registration fee through the official channels like student portal.<br>
+                            - The university does not provide any discounts on re-registration fees.<br>
+                            - Reach out to the university helpdesk team if you are in any doubt.</p>
+                    </div>
+                </div>
+                <div class="slider-dots">
+                    <div class="dot"></div>
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+
+            <!-- MAIN CARDS -->
+            <div class="grid-container">
+
+                <!-- ROW 1 -->
+                <div class="card">
+                    <div class="card-icon"
+                        style="-webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><path d=%22M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z%22/><path d=%22M12 11h2v2h-2zM8 11h2v2H8zM16 11h2v2h-2z%22/></svg>');">
+                    </div>
+                    <div class="card-title">Mentor</div>
+                    <div class="card-body">Your Mentor : Reji Mary<br><br>To reach out your mentor<br>Email to : <span
+                            class="orange">helpdesk@mujonline.edu.in</span><br>(or)<br>Call to : +91
+                        799-6600-444<br>[From Monday to Saturday 9 AM to 6 PM]</div>
+                    <button class="card-btn">Access Now</button>
+                </div>
+
+                <!-- NEW: Deloitte Card -->
+                <div class="card" style="background-color: #f1f2f4;">
+                    <div
+                        style="margin-bottom: 25px; font-size: 34px; font-weight: 900; color: #111; letter-spacing: -1px;">
+                        Deloitte.
+                    </div>
+                    <div class="card-title" style="font-size: 18px;">Gen AI for Business</div>
+                    <div class="card-body" style="font-weight: 500;">An exclusive live online certification program in
+                        collaboration with Deloitte</div>
+                    <button class="card-btn">Apply Now</button>
+                </div>
+
+                <div class="card">
+                    <div style="margin-bottom: 25px;">
+                        <svg width="150" height="25" viewBox="0 0 150 25">
+                            <text x="0" y="18" fill="#0056D2" font-family="Arial" font-weight="bold"
+                                font-size="22">coursera</text>
+                            <rect x="105" y="4" width="38" height="16" fill="#0056D2" rx="4" />
+                            <text x="110" y="16" fill="white" font-family="Arial" font-weight="bold"
+                                font-size="11">PLUS</text>
+                        </svg>
+                    </div>
+                    <div class="card-body">Access Coursera's 10,000+ globally recognized certificates and courses.</div>
+                    <button class="card-btn">Access Now</button>
+                </div>
+
+                <!-- ROW 2 -->
+                <div class="card">
+                    <div class="card-icon"
+                        style="-webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><path d=%22M3 5v14h18V5H3zm6 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm8 3H7v-1c0-2 4-3.1 6-3.1s6 1.1 6 3.1v1z%22/></svg>');">
+                    </div>
+                    <div class="card-title">Re-Register for Next Semester</div>
+                    <div class="card-body"></div>
+                    <button class="card-btn" onclick="openModal('modal-subjects')">Click Here</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon"
+                        style="-webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><path d=%22M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z%22/></svg>');">
+                    </div>
+                    <div class="card-title">Examination</div>
+                    <div class="card-body"></div>
+                    <button class="card-btn full-width" onclick="switchView('results')">VIEW MARKS</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon"
+                        style="-webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><path d=%22M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7l-2 3v1h8v-1l-2-3h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H3V4h18v12zM9.5 13.5l4-3.5-4-3.5v7z%22/></svg>');">
+                    </div>
+                    <div class="card-title">Learning Management System</div>
+                    <div class="card-body">Start your programme here<br>Download the Brightspace Pulse App: <span
+                            class="orange">Android</span> | <span class="orange">iOS</span></div>
+                    <button class="card-btn full-width"
+                        onclick="window.open('https://learning.onlinemanipal.com/d2l/home', '_blank')">LEARNING PORTAL</button>
+                </div>
+
+                <!-- ROW 3 -->
+                <div class="card">
+                    <div class="card-icon"
+                        style="-webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><path d=%22M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z%22/></svg>');">
+                    </div>
+                    <div class="card-title">Your courses</div>
+                    <div class="card-body">View the subjects being taught this semester<br><strong>BCA :
+                            251450205463</strong></div>
+                    <button class="card-btn full-width" onclick="switchView('courses')">VIEW COURSES</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon"
+                        style="-webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><path d=%22M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-3 12H7v-2h10v2zm0-3H7V9h10v2zm0-3H7V6h10v2z%22/></svg>');">
+                    </div>
+                    <div class="card-title">University announcements</div>
+                    <div class="card-body">Don't miss important updates<br><span
+                            class="orange">TeleMANAS</span><br><span class="orange">Beware: Don't pay any fee to
+                            unauthorized people</span></div>
+                    <button class="card-btn full-width">CHECK NOTIFICATIONS</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon"
+                        style="-webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><path d=%22M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12zM10 9h8v2h-8zm0 3h4v2h-4zm0-6h8v2h-8z%22/></svg>');">
+                    </div>
+                    <div class="card-title">Library</div>
+                    <div class="card-body">Access a world of knowledge<br><span class="orange">Swayam
+                            Portal</span><br><span class="orange">National Digital Library</span></div>
+                    <button class="card-btn full-width">VISIT LIBRARY</button>
+                </div>
+
+                <!-- ROW 4 -->
+                <div class="card">
+                    <div class="card-icon"
+                        style="-webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><path d=%22M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z%22/></svg>');">
+                    </div>
+                    <div class="card-title">Payments</div>
+                    <div class="card-body">Fee Paid : INR 38750<br>Fee Payable : INR 41000<br>Outstanding : INR
+                        0<br>Discount : INR 2250</div>
+                    <button class="card-btn full-width" onclick="switchView('payments')">SEE PAYMENTS</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon"
+                        style="-webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><path d=%22M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zM4 18l4-4H4v4z%22/></svg>');">
+                    </div>
+                    <div class="card-title">Student help desk</div>
+                    <div class="card-body">Have a question or an issue? We can help.<br>Last Service Request :<br>Open
+                        Service Requests : 0<br>Awaiting your response : 0</div>
+                    <button class="card-btn full-width">RAISE A TICKET</button>
+                    <div style="font-size:12px; color:#f24e1e; font-weight:bold; margin-top:16px; cursor:pointer;">VIEW
+                        TICKET HISTORY</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon"
+                        style="-webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><path d=%22M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z%22/></svg>');">
+                    </div>
+                    <div class="card-title">Email Notifications</div>
+                    <div class="card-body">Access your Outlook email for university notifications</div>
+                    <button class="card-btn full-width">VIEW EMAILS</button>
+                </div>
+
+                <!-- ROW 5 -->
+                <div class="card">
+                    <div class="card-icon"
+                        style="-webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><path d=%22M14 6c0-2.21-1.79-4-4-4S6 3.79 6 6s1.79 4 4 4 4-1.79 4-4zm-4 6c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm11.5-6h-3v3h-2v-3h-3v-2h3V1h2v3h3v2z%22/></svg>');">
+                    </div>
+                    <div class="card-title">Career support</div>
+                    <div class="card-body"></div>
+                    <div
+                        style="font-size:14px; color:#f24e1e; font-weight:800; text-transform:uppercase; margin-top:auto; cursor:pointer;">
+                        CAREER INSIGHTS</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAYMENTS VIEW -->
+        <div id="view-payments" class="view-section">
+            <div class="header-title">
+                <div class="purple-icon">💳</div>
+                My Payments
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Amount Paid</th>
+                        <th>Payment Receipt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1 &nbsp;&nbsp;&nbsp; Application Fee</td>
+                        <td>Paid</td>
+                        <td>500</td>
+                        <td class="download">Download</td>
+                    </tr>
+                    <tr>
+                        <td>2 &nbsp;&nbsp;&nbsp; Semester 1</td>
+                        <td>Paid</td>
+                        <td>20250</td>
+                        <td class="download">Download</td>
+                    </tr>
+                    <tr>
+                        <td>3 &nbsp;&nbsp;&nbsp; Semester 2</td>
+                        <td>Paid</td>
+                        <td>18000</td>
+                        <td class="download">Download</td>
+                    </tr>
+                    <tr>
+                        <td>4 &nbsp;&nbsp;&nbsp; Semester 3</td>
+                        <td>Attempted</td>
+                        <td>0</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- COURSES VIEW -->
+        <div id="view-courses" class="view-section">
+            <div class="header-title">
+                <div class="orange-icon">C</div>
+                Course
+            </div>
+            <table class="data-table" style="font-size: 13px;">
+                <thead>
+                    <tr>
+                        <th>Course Name</th>
+                        <th>Academic Program</th>
+                        <th>Semester</th>
+                        <th>Credit Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1 &nbsp;&nbsp;&nbsp; Fundamentals of Mathematics</td>
+                        <td>BCA</td>
+                        <td>Semester-1</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>2 &nbsp;&nbsp;&nbsp; Technical Communication</td>
+                        <td>BCA</td>
+                        <td>Semester-1</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>3 &nbsp;&nbsp;&nbsp; C Programming</td>
+                        <td>BCA</td>
+                        <td>Semester-1</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>4 &nbsp;&nbsp;&nbsp; Fundamentals of Computers & Digital Systems</td>
+                        <td>BCA</td>
+                        <td>Semester-1</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>5 &nbsp;&nbsp;&nbsp; Introduction to Web Programming</td>
+                        <td>BCA</td>
+                        <td>Semester-1</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>6 &nbsp;&nbsp;&nbsp; Environmental Science</td>
+                        <td>BCA</td>
+                        <td>Semester-1</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>7 &nbsp;&nbsp;&nbsp; C Programming Lab</td>
+                        <td>BCA</td>
+                        <td>Semester-1</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>8 &nbsp;&nbsp;&nbsp; Web Programming Lab</td>
+                        <td>BCA</td>
+                        <td>Semester-1</td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- RESULTS VIEW -->
+        <div id="view-results" class="view-section">
+            <div style="font-size: 14px; color: #f24e1e; font-weight: bold; margin-bottom: 10px;">Semester-1</div>
+
+            <div class="res-banner">
+                February-March 2026 Semester Examination Results
+            </div>
+
+            <div class="res-details">
+                PROGRAMME: Bachelor of Computer Applications(BCA)<br>
+                Semester-1
+                <div class="res-info-row">
+                    <span>NAME: Vipin</span>
+                    <span>ROLL NO: 251450205463</span>
+                    <span>RESULT PUBLISHED DATE: 2026-05-07</span>
+                    <span style="color:#000;">SGPA: 7.18</span>
+                </div>
+            </div>
+
+            <table class="res-table">
+                <thead>
+                    <tr>
+                        <th>Course Code</th>
+                        <th colspan="3">EXTERNAL ASSESSMENT MARKS</th>
+                        <th colspan="3">INTERNAL ASSESSMENT MARKS</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>Max/Min</th>
+                        <th>Marks</th>
+                        <th>Result</th>
+                        <th>Max/Min</th>
+                        <th>Marks</th>
+                        <th>Result</th>
+                        <th>Total Mark</th>
+                        <th>Final Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>DCAI105 <span>Fundamentals of Mathematics</span></td>
+                        <td>70/28</td>
+                        <td>47</td>
+                        <td>P</td>
+                        <td>30/12</td>
+                        <td>29</td>
+                        <td>P</td>
+                        <td>76</td>
+                        <td>P</td>
+                    </tr>
+                    <tr>
+                        <td>DCAI106 <span>Technical Communication</span></td>
+                        <td>70/28</td>
+                        <td>38</td>
+                        <td>P</td>
+                        <td>30/12</td>
+                        <td>26</td>
+                        <td>P</td>
+                        <td>64</td>
+                        <td>P</td>
+                    </tr>
+                    <tr>
+                        <td>DCAI107 <span>C Programming</span></td>
+                        <td>70/28</td>
+                        <td>54</td>
+                        <td>P</td>
+                        <td>30/12</td>
+                        <td>25</td>
+                        <td>P</td>
+                        <td>79</td>
+                        <td>P</td>
+                    </tr>
+                    <tr>
+                        <td>DCAI108 <span>Fundamentals of Computers & Digital Systems</span></td>
+                        <td>70/28</td>
+                        <td>32</td>
+                        <td>P</td>
+                        <td>30/12</td>
+                        <td>20</td>
+                        <td>P</td>
+                        <td>52</td>
+                        <td>P</td>
+                    </tr>
+                    <tr>
+                        <td>DCAI109 <span>Introduction to Web Programming</span></td>
+                        <td>70/28</td>
+                        <td>47</td>
+                        <td>P</td>
+                        <td>30/12</td>
+                        <td>25</td>
+                        <td>P</td>
+                        <td>72</td>
+                        <td>P</td>
+                    </tr>
+                    <tr>
+                        <td>DCAI110 <span>Environmental Science</span></td>
+                        <td>70/28</td>
+                        <td>60</td>
+                        <td>P</td>
+                        <td>30/12</td>
+                        <td>25</td>
+                        <td>P</td>
+                        <td>85</td>
+                        <td>P</td>
+                    </tr>
+                    <tr>
+                        <td>DCAI131 <span>C Programming Lab</span></td>
+                        <td>30/12</td>
+                        <td>28</td>
+                        <td>P</td>
+                        <td>70/28</td>
+                        <td>60</td>
+                        <td>P</td>
+                        <td>88</td>
+                        <td>P</td>
+                    </tr>
+                    <tr>
+                        <td>DCAI132 <span>Web Programming Lab</span></td>
+                        <td>30/12</td>
+                        <td>17</td>
+                        <td>P</td>
+                        <td>70/28</td>
+                        <td>53</td>
+                        <td>P</td>
+                        <td>70</td>
+                        <td>P</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="text-align: center; font-weight: bold; font-size: 16px; margin-bottom: 20px;">CGPA: NA</div>
+
+            <div class="res-footer">
+                Click here to download your Semester-1 marksheet.<br>
+                Note: The University reserves the right to change the marks or the result in case of an error and/or
+                discrepancy.
+            </div>
+
+            <table class="legend-table">
+                <tr>
+                    <td>Course Code</td>
+                    <td style="color:#f24e1e; font-weight:bold;">Name</td>
+                </tr>
+                <tr>
+                    <td>NA</td>
+                    <td>Not Applicable</td>
+                </tr>
+                <tr>
+                    <td>P</td>
+                    <td>Pass</td>
+                </tr>
+                <tr>
+                    <td>F</td>
+                    <td>Fail</td>
+                </tr>
+                <tr>
+                    <td>Ex</td>
+                    <td>Exempted</td>
+                </tr>
+                <tr>
+                    <td>AAA</td>
+                    <td>Absent</td>
+                </tr>
+                <tr>
+                    <td>ML</td>
+                    <td>Malpractice</td>
+                </tr>
+            </table>
+
+            <div style="font-size: 11px; color: #555; font-weight: bold;">
+                Disclaimer:-<br>
+                The results displayed are indicative and for the purpose of information only. Students are advised to
+                refer the Marks card of the university for actual marks/grades obtained.
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-top">
+            <div class="logo-space" style="width: 160px; height: 40px; background: #333; border-color: #555;"><img src="logo.png" alt=""></div>
+            <div class="footer-links">
+                <span>Manipal University Website</span>
+                <span>Proquest</span>
+                <span>Swayam Portal</span>
+                <span>National Digital Library</span>
+                <span>Blogs</span>
+                <span>Outlook</span>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="social-icons">
+                Follow Us On &nbsp;
+                <span>f</span> <span>in</span> <span>▶</span> <span>📷</span>
+            </div>
+            <div>Contact Us: <span style="color:#f24e1e;">helpdesk@mujonline.edu.in</span> &nbsp;&nbsp;&nbsp;&nbsp; TEL:
+                +91 799-6600-444</div>
+        </div>
+    </footer>
+
+    <!-- MODAL 1: SUBJECTS -->
+    <div id="modal-subjects" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-close" onclick="closeAllModals()">✕</div>
+            <div class="modal-header">Subjects</div>
+            <div class="modal-body">
+                <div class="mod-title">Core Subjects(Mandatory)</div>
+                <ul class="subj-list">
+                    <li>Computer Organisation and Architecture</li>
+                    <li>Java Programming</li>
+                    <li>Data Communication & Protocols</li>
+                    <li>Operating Systems</li>
+                    <li>Artificial Intelligence for Problem Solving</li>
+                    <li>Java Programming Lab</li>
+                    <li>Operating Systems Lab</li>
+                </ul>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="chk-register" onchange="toggleNextArrow(this)">
+                    <label for="chk-register"><span style="color:red">*</span> I confirm with the list of subjects and
+                        wish to register for the next semester</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-next" class="btn-icon" disabled onclick="openModal('modal-payment')">➔</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: PAYMENT -->
+    <div id="modal-payment" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-close" onclick="closeAllModals()">✕</div>
+            <div class="modal-header">Payment</div>
+            <div class="modal-body">
+                <div class="mod-title" style="margin-bottom: 20px;">Please select payment category</div>
+
+                <div class="radio-row">
+                    <input type="radio" name="pay-category" id="cat-sem" checked>
+                    <label for="cat-sem">Semester</label>
+                </div>
+                <div class="radio-row">
+                    <input type="radio" name="pay-category" id="cat-ann">
+                    <label for="cat-ann">Annual</label>
+                </div>
+                <div class="radio-row">
+                    <input type="radio" name="pay-category" id="cat-full">
+                    <label for="cat-full">Full Payment</label>
+                </div>
+
+                <div class="fee-calc">
+                    <span>Fees</span>
+                    <span>INR 22250</span> <!-- Updated Amount -->
+                </div>
+                <div class="fee-calc" style="margin-top: 20px;">
+                    <span>Amount to be paid</span>
+                    <span>INR 22250</span> <!-- Updated Amount -->
+                </div>
+
+                <div class="disclaimer">
+                    Payments must only be made directly to the university via the student Portal and not to any third
+                    party, student counsellor, or individual
+                </div>
+            </div>
+
+            <div class="modal-footer" style="justify-content: flex-start; align-items: center;">
+                <button class="btn-icon" onclick="openModal('modal-subjects')">←</button>
+                <div style="flex-grow: 1;"></div>
+                <button class="btn-text">Pay Now</button>
+                <button class="btn-text" onclick="closeAllModals()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchView(viewName) {
+            // Hide all view sections
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.style.display = 'none';
+            });
+
+            // Deactivate all nav items
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Show target view
+            const targetView = document.getElementById('view-' + viewName);
+            if (targetView) targetView.style.display = 'block';
+
+            // Highlight target nav item (if it exists)
+            const targetNav = document.getElementById('nav-' + viewName);
+            if (targetNav) targetNav.classList.add('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'auto' });
+        }
+
+        function openModal(modalId) {
+            closeAllModals();
+            const modal = document.getElementById(modalId);
+            modal.classList.add('active');
+        }
+
+        function closeAllModals() {
+            document.querySelectorAll('.modal-overlay').forEach(el => {
+                el.classList.remove('active');
+            });
+        }
+
+        function toggleNextArrow(checkbox) {
+            document.getElementById('btn-next').disabled = !checkbox.checked;
+        }
+    </script>
+</body>
+
+</html>
